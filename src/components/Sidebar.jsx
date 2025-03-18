@@ -46,7 +46,7 @@ const SideBar = () => {
             subPaths: ["/grade-analyze", "/grade-result"], // Sub paths for active state
         },
         {
-            path: "/condition-assesment",
+            path: "/condition-identifier",
             name: "Condition Assessment",
             icon: <FaDroplet size={collapsed ? 22 : 20} />,
         },

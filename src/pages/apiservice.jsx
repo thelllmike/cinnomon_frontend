@@ -95,3 +95,34 @@ export const predictPrice = async (year, month, grade) => {
       throw error;
     }
   };
+
+  export const predictCondition = async (files) => {
+    try {
+      const results = [];
+  
+      // Process each file one at a time (sequential).
+      // If you prefer parallel calls, you can use Promise.all().
+      for (const file of files) {
+        const formData = new FormData();
+        formData.append("file", file);
+  
+        // Endpoint: /condition_detection/predict-condition
+        const response = await axios.post(
+          `${API_BASE_URL}/condition_detection/predict-condition`,
+          formData,
+          {
+            headers: {
+              "Content-Type": "multipart/form-data",
+            },
+          }
+        );
+        // Each response might be { "predicted_class": "level_1", "confidence": 0.49 }
+        results.push(response.data);
+      }
+  
+      return results;
+    } catch (error) {
+      console.error("Error predicting condition:", error);
+      throw error;
+    }
+  };
