@@ -1,3 +1,4 @@
+// src/pages/PriceAnalyze.jsx
 import { useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { predictPrice } from "./apiservice";
@@ -7,25 +8,26 @@ const PriceAnalyze = () => {
   const location = useLocation();
 
   useEffect(() => {
+    // We expect { year, month, grade } in location.state
     const { year, month, grade } = location.state || {};
 
-    // If no data was passed, redirect back
+    // If the user arrives with no data, send them back to the form
     if (!year || !month || !grade) {
-      navigate("/price-prediction");
+      navigate("/price-identifier");
       return;
     }
 
-    // Call the API
+    // Immediately call our backend
     const fetchPrediction = async () => {
       try {
         const result = await predictPrice(year, month, grade);
         console.log("Prediction result from API:", result);
 
-        // Once we have the result, navigate to the results page
+        // Navigate to /price-result with the entire result object
         navigate("/price-result", { state: result });
       } catch (error) {
         console.error("Error predicting price:", error);
-        // Optionally show an error message or navigate to an error page
+        // Optionally navigate to an error page or show a friendly message
       }
     };
 
@@ -39,11 +41,7 @@ const PriceAnalyze = () => {
           Predicting the prices...
         </h2>
         <div className="w-[18rem] flex items-center justify-center">
-          <img
-            src="/animation.gif"
-            alt="Animation"
-            className="w-full h-full"
-          />
+          <img src="/animation.gif" alt="Animation" className="w-full h-full" />
         </div>
       </div>
     </div>

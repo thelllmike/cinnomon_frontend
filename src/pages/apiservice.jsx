@@ -24,7 +24,30 @@ export const predictImageAge = async (imageFile) => {
     throw error;
   }
 };
-export const predictPrice = async (year, month, grade) => {
+function convertMonthToNumber(monthName) {
+    const months = [
+      "January","February","March","April","May","June",
+      "July","August","September","October","November","December"
+    ];
+    const index = months.findIndex(
+      (m) => m.toLowerCase() === monthName?.toLowerCase()
+    );
+    return index >= 0 ? index + 1 : 0;
+  }
+  
+  /**
+   * Calls /price/predict-price on the backend.
+   * Payload example: { year: 2023, month: 1, grade: "C4" }
+   * Response example:
+   * {
+   *   "year": 2023,
+   *   "month": 1,
+   *   "grade": "C4",
+   *   "predicted_category": "Medium",
+   *   "predicted_price_LKR": 1551.2
+   * }
+   */
+  export const predictPrice = async (year, month, grade) => {
     try {
       const payload = {
         year: Number(year),
@@ -32,38 +55,25 @@ export const predictPrice = async (year, month, grade) => {
         grade: grade,
       };
   
-      const response = await axios.post(`${API_BASE_URL}/price/predict-price`, payload, {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
+      // POST to your FastAPI endpoint
+      const response = await axios.post(
+        `${API_BASE_URL}/price/predict-price`,
+        payload,
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
   
-      // For example, returns:
-      // {
-      //   "year": 2015,
-      //   "month": 2,
-      //   "grade": "C4",
-      //   "predicted_category": "Medium",
-      //   "predicted_price_LKR": 1641.46
-      // }
+      // The backend typically returns the full JSON with year, month, grade, predicted_category, etc.
       return response.data;
     } catch (error) {
       console.error("Error predicting price:", error);
       throw error;
     }
   };
-  
-  // Optionally convert month name to a numeric month if the API expects a number
-  function convertMonthToNumber(monthName) {
-    const months = [
-      "January", "February", "March", "April", "May", "June",
-      "July", "August", "September", "October", "November", "December",
-    ];
-    const index = months.findIndex(
-      (m) => m.toLowerCase() === monthName?.toLowerCase()
-    );
-    return index >= 0 ? index + 1 : 0; // return 0 if not found
-  }
+
   export const predictDiseases = async (files) => {
     try {
       const results = [];

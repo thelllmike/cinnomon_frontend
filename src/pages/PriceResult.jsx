@@ -1,9 +1,10 @@
+// src/pages/PriceResultsPage.jsx
 import { useLocation, Link } from "react-router-dom";
 
 const PriceResultsPage = () => {
   const location = useLocation();
 
-  // The backend likely returns: year, month, grade, predicted_category, predicted_price_LKR
+  // The back end returns: { year, month, grade, predicted_category, predicted_price_LKR }
   const {
     year,
     month,
@@ -12,12 +13,13 @@ const PriceResultsPage = () => {
     predicted_price_LKR,
   } = location.state || {};
 
-  // If no data was passed, handle that case
+  // If the user typed "/price-result" in the address bar manually
+  // or there's no state data, handle it gracefully:
   if (!year || !month || !grade) {
     return (
       <div className="p-8">
         <h1 className="text-2xl font-semibold mb-8">No prediction data found.</h1>
-        <Link to="/price-prediction">
+        <Link to="/price-identifier">
           <button className="bg-green-600 hover:bg-green-700 text-white px-6 py-3 rounded-lg font-medium transition-colors">
             Go Back
           </button>
@@ -50,18 +52,24 @@ const PriceResultsPage = () => {
 
             <div>
               <span className="text-gray-700 font-medium">Category: </span>
-              <span className="text-green-600 font-medium">{predicted_category}</span>
+              <span className="text-green-600 font-medium">
+                {predicted_category}
+              </span>
             </div>
 
             <div>
-              <span className="text-gray-700 font-medium">Predicted price (LKR): </span>
-              <span className="text-green-600 font-medium">{predicted_price_LKR}</span>
+              <span className="text-gray-700 font-medium">
+                Predicted price (LKR):
+              </span>{" "}
+              <span className="text-green-600 font-medium">
+                {predicted_price_LKR}
+              </span>
             </div>
           </div>
         </div>
 
         <div className="flex justify-end">
-          <Link to="/price-prediction">
+          <Link to="/price-identifier">
             <button className="bg-green-600 hover:bg-green-700 text-white px-6 py-3 rounded-lg font-medium transition-colors">
               Predict Another
             </button>

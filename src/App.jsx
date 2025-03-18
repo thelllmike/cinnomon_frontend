@@ -97,7 +97,7 @@ function App() {
               {/* Price Pages */}
               <Route path="/price-identifier" element={<CinnamonPricePrediction />} />
               <Route path="/price-analyze" element={<PriceAnalyze />} />
-              <Route path="/price-prediction" element={<PriceResultsPage />} />
+              <Route path="/price-result" element={<PriceResultsPage />} />
 
               {/* Grade Pages */}
               <Route path="/grade-identifier" element={<GradeIdentifier />} />
