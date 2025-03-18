@@ -126,3 +126,31 @@ export const predictPrice = async (year, month, grade) => {
       throw error;
     }
   };
+
+  export const predictGrade = async (files) => {
+    try {
+      const results = [];
+  
+      // You can process each file sequentially or use Promise.all for parallel
+      for (const file of files) {
+        const formData = new FormData();
+        formData.append("file", file);
+  
+        const response = await axios.post(
+          `${API_BASE_URL}/prediction/predict`,
+          formData,
+          {
+            headers: {
+              "Content-Type": "multipart/form-data",
+            },
+          }
+        );
+        results.push(response.data);
+      }
+  
+      return results;
+    } catch (error) {
+      console.error("Error predicting grade:", error);
+      throw error;
+    }
+  };
