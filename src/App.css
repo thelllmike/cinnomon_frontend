@@ -1,0 +1,29 @@
+@import "tailwindcss";
+
+:root {
+    --green-600: #009b45; /* Main sidebar color */
+    --green-700: #077f3f; /* Active/hover state */
+    --green-800: #005a2e; /* Darker state for buttons */
+    --green-900: #045c2b; /* Text color for "cinnamon" */
+    --white: #f6f6f6; /* Text color for page background */
+}
+
+.bg-green-600 {
+    background-color: var(--green-600);
+}
+
+.bg-green-700 {
+    background-color: var(--green-700);
+}
+
+.bg-green-800 {
+    background-color: var(--green-800);
+}
+
+.bg-green-900 {
+    background-color: var(--green-900);
+}
+
+.text-green-600 {
+    color: var(--green-600);
+}
