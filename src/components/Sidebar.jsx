@@ -23,9 +23,14 @@ const SideBar = () => {
         },
         {
             path: "/disease-identifier",
-            name: "Disease Identifier",
+            name: "Leaves Disease Identifier",
             icon: <FaSquareVirus size={collapsed ? 22 : 20} />,
             subPaths: ["/disease-analyze", "/disease-result"], // Sub paths for active state
+        },
+        {
+            path: "/stick-disease-identifier",
+            name: "Stick Disease identifier",
+            icon: <FaSquareVirus size={collapsed ? 22 : 20} />,
         },
         {
             path: "/age-identifier",
@@ -50,6 +55,7 @@ const SideBar = () => {
             name: "Condition Assessment",
             icon: <FaDroplet size={collapsed ? 22 : 20} />,
         },
+       
     ];
 
     // Function to check active state

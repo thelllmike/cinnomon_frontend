@@ -164,3 +164,35 @@ function convertMonthToNumber(monthName) {
       throw error;
     }
   };
+
+  export const predictStickDisease = async (files) => {
+    try {
+      const results = [];
+  
+      // Process each file one at a time (sequential). 
+      // If you prefer parallel, you could do Promise.all.
+      for (const file of files) {
+        const formData = new FormData();
+        formData.append("file", file);
+  
+        const response = await axios.post(
+          `${API_BASE_URL}/detection/predict-stick-disease`,
+          formData,
+          {
+            headers: {
+              "Content-Type": "multipart/form-data",
+            },
+          }
+        );
+  
+        // Each response might look like:
+        // { "predicted_class": "striper_cank", "confidence": 0.5961 }
+        results.push(response.data);
+      }
+  
+      return results;
+    } catch (error) {
+      console.error("Error predicting stick disease:", error);
+      throw error;
+    }
+  };

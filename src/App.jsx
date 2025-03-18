@@ -14,6 +14,11 @@ import { FaCircleUser } from "react-icons/fa6";
 import DiseaseAnalyze from "./pages/DiseaseAnalyze";
 import DiseaseResultPage from "./pages/DiseaseResultPage";
 
+// Stick Disease pages
+import StickDiseaseAnalyze from "./pages/StickDiseaseAnalyze"; // New page
+import StickDiseaseIdentifier from "./pages/StickDiseaseIdentifier"; // New page
+import StickDiseaseResultPage from "./pages/StickDiseaseResultPage"; // New page
+
 // Age-related pages
 import AgeAnalyze from "./pages/AgeAnalyze";
 import AgeResults from "./pages/AgeResultPage";
@@ -88,6 +93,11 @@ function App() {
               <Route path="/disease-identifier" element={<DiseaseIdentifier />} />
               <Route path="/disease-analyze" element={<DiseaseAnalyze />} />
               <Route path="/disease-result" element={<DiseaseResultPage />} />
+
+              {/* Stick Disease Pages */}
+              <Route path="/stick-disease-identifier" element={<StickDiseaseIdentifier />} />
+              <Route path="/stick-disease-analyze" element={<StickDiseaseAnalyze />} />
+              <Route path="/stick-disease-result" element={<StickDiseaseResultPage />} />
 
               {/* Age Pages */}
               <Route path="/age-identifier" element={<AgeIdentifier />} />
