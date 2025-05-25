@@ -8,6 +8,7 @@ const DiseaseResults = () => {
 
   // Real results from the API, if any
   const apiResults = location.state?.results || [];
+  const uploadedFiles = location.state?.files || [];
 
   // If no real results, we’ll fall back to your sample data:
   const sampleResults = [
@@ -42,21 +43,24 @@ const DiseaseResults = () => {
   // becomes { disease: "healthy leaves", confidenceLevel: "98%", ... }
   const transformResults = (results) => {
     return results.map((item, idx) => {
-      // For example, predicted_class: "healthy_leaves" => "Healthy Leaves"
       const diseaseName = item.predicted_class
-        ? item.predicted_class
-            .replace(/_/g, " ")
-            .replace(/\b\w/g, (c) => c.toUpperCase())
+        ? item.predicted_class.replace(/_/g, " ").replace(/\b\w/g, (c) => c.toUpperCase())
         : "Unknown Disease";
 
       const confidencePct = item.confidence
         ? (item.confidence * 100).toFixed(2) + "%"
         : "Unknown";
 
+      // create a blob URL for the uploaded image
+const fileObj = uploadedFiles[idx]?.file;
+const imageSrc = fileObj
+  ? URL.createObjectURL(fileObj)
+  : "/no-image.png";
+
       return {
         id: idx,
-        imageSrc: "/no-image.png", // You could display the user's original image if stored
-        imageAlt: "Leaf image",
+        imageSrc,
+        imageAlt: fileObj?.name || "Leaf image",
         disease: diseaseName,
         confidenceLevel: confidencePct,
         suggestions: [
@@ -89,11 +93,11 @@ const DiseaseResults = () => {
               Image {index + 1} result
             </h3>
 
-            <img
-              src={result.imageSrc}
-              alt={result.imageAlt}
-              className="w-full h-40 object-cover"
-            />
+          <img
+       src={result.imageSrc}
+       alt={result.imageAlt}
+       className="w-full h-auto max-h-[40vh] object-contain"
+     />
 
             <div className="p-4 bg-green-200/40">
               <p className="mb-2">

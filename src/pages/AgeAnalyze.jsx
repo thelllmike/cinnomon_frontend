@@ -21,7 +21,8 @@ const AgeAnalyze = () => {
         console.log("API result:", result);
         // Once the result is received, navigate to the AgeResults page,
         // passing the API result via state.
-        navigate("/age-result", { state: { result } });
+        navigate("/age-result", { state: { result, file } });
+
       } catch (error) {
         console.error("Error during image analysis:", error);
         // Optionally, navigate to an error page or display an error message.

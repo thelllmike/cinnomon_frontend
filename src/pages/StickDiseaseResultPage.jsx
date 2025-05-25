@@ -9,6 +9,7 @@ const StickDiseaseResultPage = () => {
   // The results from the API, e.g. 
   // [ { predicted_class: "striper_cank", confidence: 0.59 }, ... ]
   const apiResults = location.state?.results || [];
+  const uploadedFiles = location.state?.files   || [];
 
   // If no real results, define some sample data or show a message
   const sampleResults = [
@@ -23,9 +24,8 @@ const StickDiseaseResultPage = () => {
   ];
 
   // Transform your results for the UI
-  const transformResults = (results) => {
-    return results.map((item, idx) => {
-      // e.g. predicted_class: "striper_cank" => "Striper Cank"
+ const transformResults = (results) =>
+    results.map((item, idx) => {
       const diseaseName = item.predicted_class
         ? item.predicted_class
             .replace(/_/g, " ")
@@ -36,13 +36,21 @@ const StickDiseaseResultPage = () => {
         ? (item.confidence * 100).toFixed(2) + "%"
         : "Unknown";
 
+      // — NEW: grab the matching uploaded file and make a blob URL
+      const fileObj  = uploadedFiles[idx]?.file;
+      const imageSrc = fileObj
+        ? URL.createObjectURL(fileObj)
+        : "/no-image.png";
+      const imageAlt = fileObj?.name || "Uploaded stick image";
+
       return {
         id: idx,
         diseaseName,
         confidencePct,
+        imageSrc,
+        imageAlt,
       };
     });
-  };
 
   const displayResults =
     apiResults.length > 0
@@ -65,6 +73,12 @@ const StickDiseaseResultPage = () => {
             key={result.id || index}
             className="bg-green-50 rounded-lg overflow-hidden"
           >
+              {/* SHOW UPLOADED IMAGE */}
+            <img
+              src={result.imageSrc}
+              alt={result.imageAlt}
+              className="w-full h-auto max-h-[50vh] object-contain"
+            />
             <div className="p-4 bg-green-200/40">
               <h3 className="text-lg text-green-800 font-semibold mb-4">
                 Image {index + 1} Result

@@ -8,6 +8,7 @@ const ConditionResultPage = () => {
 
   // The real results from the condition detection API
   const apiResults = location.state?.results || [];
+  const uploadedFiles = location.state?.files || [];
 
   // If no real results, fallback to sample
   const sampleResults = [
@@ -27,7 +28,7 @@ const ConditionResultPage = () => {
   // For example:
   // { predicted_class: "level_1", confidence: 0.49 }
   // => { condition: "Level 1", confidencePct: "49%" }
-  const transformResults = (results) => {
+ const transformResults = (results) => {
     return results.map((item, idx) => {
       const conditionName = item.predicted_class
         ? item.predicted_class
@@ -39,10 +40,19 @@ const ConditionResultPage = () => {
         ? (item.confidence * 100).toFixed(2) + "%"
         : "Unknown";
 
+      // — NEW: grab the matching uploaded file and make a blob URL
+      const fileObj  = uploadedFiles[idx]?.file;
+      const imageSrc = fileObj
+        ? URL.createObjectURL(fileObj)
+        : "/no-image.png";
+      const imageAlt = fileObj?.name || "Uploaded stick image";
+
       return {
         id: idx,
         condition: conditionName,
         confidence: confidencePct,
+        imageSrc,
+        imageAlt,
       };
     });
   };
@@ -65,6 +75,12 @@ const ConditionResultPage = () => {
             key={result.id || index}
             className="bg-green-50 rounded-lg overflow-hidden"
           >
+             {/* SHOW UPLOADED IMAGE */}
+           <img
+             src={result.imageSrc}
+             alt={result.imageAlt}
+             className="w-full h-auto max-h-[50vh] object-contain"
+           />
             <div className="p-4 bg-green-200/40">
               <h3 className="text-lg text-green-800 font-semibold mb-4">
                 Image {index + 1} Result

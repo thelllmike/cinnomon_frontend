@@ -35,7 +35,7 @@ const StickDiseaseAnalyze = () => {
     // Once we have results, optionally show spinner for a few seconds
     if (results !== null) {
       const timerId = setTimeout(() => {
-        navigate("/stick-disease-result", { state: { results } });
+        navigate("/stick-disease-result", { state: { results, files } });
       }, 3000);
 
       return () => clearTimeout(timerId);

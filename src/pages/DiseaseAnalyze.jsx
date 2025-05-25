@@ -51,7 +51,7 @@ const DiseaseAnalyze = () => {
     if (results !== null) {
       const timerId = setTimeout(() => {
         // Navigate to the results page with the predictions
-        navigate("/disease-result", { state: { results } });
+        navigate("/disease-result", { state: { results, files } });
       }, 3000);
 
       return () => clearTimeout(timerId);

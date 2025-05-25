@@ -6,6 +6,7 @@ import { predictGrade } from "./apiservice"; // adjust path if needed
 const GradeAnalyze = () => {
   const navigate = useNavigate();
   const location = useLocation();
+
   const files = location.state?.files || [];
 
   const [results, setResults] = useState(null);
@@ -40,7 +41,7 @@ const GradeAnalyze = () => {
     // Once we have results, wait 3s, then navigate
     if (results !== null) {
       const timerId = setTimeout(() => {
-        navigate("/grade-prediction", { state: { results } });
+        navigate("/grade-result", { state: { results, files } });
       }, 3000);
 
       return () => clearTimeout(timerId);

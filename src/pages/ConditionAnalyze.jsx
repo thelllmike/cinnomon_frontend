@@ -48,7 +48,7 @@ const ConditionAnalyze = () => {
     // Once we have "results", show spinner for 3 more seconds
     if (results !== null) {
       const timerId = setTimeout(() => {
-        navigate("/condition-result", { state: { results } });
+        navigate("/condition-result", { state: { results, files } });
       }, 3000);
 
       return () => clearTimeout(timerId);

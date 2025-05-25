@@ -1,26 +1,31 @@
+// src/pages/AgeResults.jsx
 import React from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 
 const AgeResults = () => {
   const location = useLocation();
   const navigate = useNavigate();
-  const apiResult = location.state?.result;
 
-  // Transform the API result into the expected format if available.
-  // Otherwise, fallback to sample data.
+  // The API result and the original file passed from AgeAnalyze
+  const apiResult = location.state?.result;
+  const file      = location.state?.file;
+
+  // Build the array of results, injecting the blob URL for the uploaded file
   const displayResults = apiResult
     ? [
         {
           id: 1,
-          imageSrc: "https://via.placeholder.com/150", // Optionally, display the analyzed image if available.
-          imageAlt: "Analyzed image",
+          imageSrc: file
+            ? URL.createObjectURL(file)
+            : "https://via.placeholder.com/150",
+          imageAlt: file?.name || "Analyzed image",
           disease: apiResult.predicted_class,
-          confidenceLevel: `${apiResult.confidence * 100}%`,
+          confidenceLevel: `${(apiResult.confidence * 100).toFixed(2)}%`,
           suggestions: ["Additional suggestions based on prediction."],
         },
       ]
     : [
-        // Sample data fallback.
+        // Sample fallback
         {
           id: 1,
           imageSrc:
@@ -48,14 +53,14 @@ const AgeResults = () => {
             key={result.id || index}
             className="bg-green-50 rounded-lg overflow-hidden"
           >
-            <h3 className="text-lg text-green-800 font-semibold mb-4">
+            <h3 className="text-lg text-green-800 font-semibold mb-4 p-4">
               Image {index + 1} result
             </h3>
             <div>
               <img
                 src={result.imageSrc}
                 alt={result.imageAlt}
-                className="w-full h-40 object-cover rounded-t-lg"
+                className="w-full h-auto max-h-[50vh] object-contain rounded-t-lg"
               />
             </div>
             <div className="p-4 bg-green-200/40">
