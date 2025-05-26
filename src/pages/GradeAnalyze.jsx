@@ -41,12 +41,12 @@ const GradeAnalyze = () => {
     // Once we have results, wait 3s, then navigate
     if (results !== null) {
       const timerId = setTimeout(() => {
-        navigate("/grade-result", { state: { results, files } });
+        navigate("/grade-prediction", { state: { results, files } });
       }, 3000);
 
       return () => clearTimeout(timerId);
     }
-  }, [results, navigate]);
+  }, [results, navigate, files]);
 
   return (
     <div className="flex h-full items-center justify-center">
